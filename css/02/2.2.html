@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跨浏览器CSS</title>
+</head>
+<body>
+<p>如果要保证所有的浏览器显示效果一致的话，一方面不得不放弃一些很酷的选项，</p>
+<p>比如HTML5中的 canvas 、CSS 3 的 transform；</p>
+<p>另一方面不得不使用更多的图片，降低页面加载的性能；</p>
+<p>甚至可能必须根据用户浏览器的不同编写多套代码。</p>
+<h3>通过条件注释(conditional comment)让不同的浏览器来加载不同的CSS</h3>
+<p>示例代码如下</p>
+<hr />
+<div>
+<pre>
+&lt;!--[if !IE]&gt;&lt;!--&gt; 除 IE 外都可识别 &lt;!--&lt;![endif]--&gt;
+&lt;!--[if IE]&gt; 所有的 IE 可识别 &lt;![endif]--&gt;
+&lt;!--[if IE 6]&gt; 仅 IE6 可识别 &lt;![endif]--&gt;
+&lt;!--[if lt IE 6]&gt; IE6 以下版本可识别 &lt;![endif]--&gt;
+&lt;!--[if gte IE 6]&gt; IE6 以及 IE6 以上版本可识别 &lt;![endif]--&gt;
+</pre>
+</div>
+<p>条件注释的控制符如下</p>
+<hr />
+<table border="1">
+    <tr>
+        <th>项目</th>
+        <th>范例</th>
+        <th>说明</th>
+    </tr>
+    <tr>
+        <td>!</td>
+        <td>[if !IE]</td>
+        <td>"非"运算符</td>
+    </tr>
+    <tr>
+        <td>lt</td>
+        <td>[if lt IE 5.5]</td>
+        <td>小于运算符</td>
+    </tr>
+    <tr>
+        <td>lte</td>
+        <td>[if lte IE 6]</td>
+        <td>小于等于运算符</td>
+    </tr>
+    <tr>
+        <td>gt</td>
+        <td>[if gt IE6]</td>
+        <td>大于运算符</td>
+    </tr>
+    <tr>
+        <td>gte</td>
+        <td>[if gte IE 6]</td>
+        <td>大于等于运算符</td>
+    </tr>
+    <tr>
+        <td>()</td>
+        <td>[if (lte IE 6)]</td>
+        <td>用于子表达式，以配合布尔运算符</td>
+    </tr>
+    <tr>
+        <td>&</td>
+        <td>[if (lte IE 9)&(gt IE6)]</td>
+        <td>AND运算符</td>
+    </tr>
+    <tr>
+        <td>|</td>
+        <td>[if (gt IE 6)|(!IE)]</td>
+        <td>OR运算符</td>
+    </tr>
+</table>
+<br />
+<a href="./index.html">返回上级</a>
+</body>
+</html>
