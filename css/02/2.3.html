@@ -5,7 +5,38 @@
     <title>浏览器的属性前缀</title>
 </head>
 <body>
-<p></p>
+<h3>常用的属性前缀</h3>
+<ul>
+    <li>-webkit: webkit 核心浏览器，包括 Chrome、Safari 等</li>
+    <li>-moz: 火狐 (Firefox) 浏览器</li>
+    <li>-ms: IE 浏览器</li>
+    <li>-o: Opera 浏览器</li>
+</ul>
+<p>在实际开发过程中，对于大多数 CSS 3 效果来说，考虑到兼容性，往往需要把所有的前缀属性都写上去，譬如这样：</p>
+<pre>
+.transform {
+    -webkit-transform:rotate(-3deg);     /*带有 Chrome、Safari 浏览器的属性前缀*/
+    -moz-transform:rotate(-3deg);        /*带有 Firefox 浏览器的属性前缀*/
+    -ms-transform:rotate(-3deg);         /*带有 IE 浏览器的属性前缀*/
+    -o-transform:rotate(-3deg);          /*带有 Opera 浏览器的属性前缀*/
+    transform:rotate(-3deg);             /*W3C标准语法，无属性前缀*/
+}
+</pre>
+<h3>属性前缀的排序</h3>
+<p>即使W3C标准得到了一致通过和广泛推广，但浏览器厂商为了兼容老的内容，还是不得不继续支持带有前缀的属性；
+而开发者面对一些使用老版本浏览器的用户时，也不得不继续给代码写上所有的属性前缀。</p>
+<p>但是问题随之产生：</p>
+<p>W3C标准属性在某些情况下与带有前缀的属性具有不同的表现形式，那有什么解决方案呢？</p>
+<p>可以采取通用的办法，就是把标准属性放在最后书写。例如：</p>
+<pre>
+.border_button{
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;     // 标准属性
+}
+</pre>
+<p>这样即使出现不一致的情况，后书写的符合W3C标准的属性，会覆盖前面带有属性前缀的定义，
+更好地保证显示效果在所有浏览器下的一致性。</p>
 <br />
 <a href="./index.html">返回上级</a>
 </body>
