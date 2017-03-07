@@ -3,6 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>浮动布局</title>
+    <style>
+        html body div.clear,
+        html body span.clear
+        {
+            background: none;
+            border: 0;
+            clear: both; /* 这句是重点， 其他都是兼容性代码 */
+            display: block;
+            float: none;
+            font-size: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            visibility: hidden;
+            width: 0;
+            height: 0;
+        }
+
+        .clearfix:after {
+            content: "";
+            display: block;
+            height: 0;
+            clear: both;
+        }
+        .clearfix {
+            zoom: 1;
+        }
+        .left {
+            float: left
+        }
+        .right {
+            float: right
+        }
+    </style>
 </head>
 <body>
 <h4>正常布局</h4>
@@ -18,6 +52,120 @@
     <div style="width: 100px;height: 50px;border: 1px solid red;margin: 5px;float: left;">div1</div>
     <div style="width: 100px;height: 50px;border: 1px solid red;margin: 5px;float: left;">div2</div>
     <div style="width: 100px;height: 50px;border: 1px solid red;margin: 5px;float: left;">div3</div>
+</div>
+<div class="clear"></div>
+<br />
+<hr />
+<p>float属性有4个可选项：none、left、right、inherit。</p>
+<ul>
+    <li>其中 none 为默认值，即不浮动</li>
+    <li>inherit 表示继承父元素的 float 值</li>
+    <li>left、right 表示向页面左侧和右侧浮动</li>
+</ul>
+<p>注意：一般不建议使用 inherit，因为 IE 不支持这个选项</p>
+
+<hr />
+<p>我们重点需要说明的是设置了浮动后元素的变化情况。</p>
+<p>(1)对于块级元素来说，在不设置宽度的情况下，默认的宽度是 100%，
+    一旦设置了浮动，它的宽度会根据内容进行自动调整</p>
+
+<div style="border: 1px solid red;width: 400px; height: 100px;padding: 10px;margin: 10px;">
+    <div style="border: 1px solid red; height: 50px;">文字内容</div>
+</div>
+
+<div style="border: 1px solid red;width: 400px; height: 100px;padding: 10px;margin: 10px;">
+    <div style="border: 1px solid red; height: 50px;float: left;">文字内容</div>
+</div>
+<p>(2)设置了浮动的元素会脱离正常的文档流，我们可以这样理解：设置了浮动后，元素不仅在y轴上浮了起来，
+在z轴上，也浮了起来。</p>
+<p>譬如：默认情况下，父元素的高度会根据子元素的内容自动进行调整，而如果我们将子元素设置为浮动，
+父元素的高度就会变为0。</p>
+
+<div class="container" style="border: 1px solid blue;">
+    <div class="left" style="width: 30%;border: 1px solid red;float: left;">
+        左边
+    </div>
+    <div class="right" style="width: 60%;border: 1px solid red;float: left;">
+        右边
+    </div>
+</div>
+<div class="clear"></div>
+<p>通过浏览器工具可以发现 container 的高度为 0</p>
+
+<p>(3)虽然浮动的元素脱离了文档流，但是里面的内容仍然占据空间，会根据相对位置进行布局。</p>
+
+<div style="border: 1px solid red;width: 400px; height: 100px;padding: 10px;margin: 10px;">
+    <div class="div1" style="border: 1px solid red; height: 50px;width: 100px;">normal1</div>
+    <div class="div2" style="border: 1px solid red; height: 50px;">normal2</div>
+</div>
+
+<div style="border: 1px solid red;width: 400px; height: 100px;padding: 10px;margin: 10px;">
+    <div class="div1" style="border: 1px solid red; height: 50px;width: 100px;float: left;">normal1</div>
+    <div class="div2" style="border: 1px solid red; height: 50px;">normal2</div>
+</div>
+
+<p>如果将 div1 设置为 float: left，由于 float 元素脱离了文档流，div2 自动向上补一位，
+    但是文字 normal2 并没有被 div1 中的文字覆盖 (虽然 div1 是覆盖在 div2 上方的)，
+而是排列在了正常的相对位置上。</p>
+<br />
+<h3>清除浮动</h3>
+<p>有时候我们需要用到浮动，但又不想由于浮动的某些特性影响布局，这时就需要清除浮动。</p>
+<p>清除浮动主要应用的是CSS中的 clear 属性，clear 属性定义了元素的哪一侧不允许出现浮动元素。</p>
+<p>可选项有left、right、both。例如：</p>
+<pre>
+img {float:left;clear:both}   /* 左右两侧都不允许出现浮动元素 */
+</pre>
+<p>下面介绍两种应用比较广泛的清除浮动的方法。</p>
+<p>(1)在需要的地方添加定义了 clear: both 的空标签</p>
+<pre>
+html body div.clear,
+html body span.clear
+{
+    background: none;
+    border: 0;
+    clear: both; /* 这句是重点， 其他都是兼容性代码 */
+    display: block;
+    float: none;
+    font-size: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+/* 在需要清除浮动的元素后面添加 &lt;div class="clear"&gt;&lt;/div&gt; 即可 */
+</pre>
+<p>这是一个"万能"的清除浮动代码，可以在不同浏览器下兼容。</p>
+<p>(2)对父元素使用:after伪类.</p>
+<pre>
+.clearfix:after {
+    content: "020";
+    display: block;
+    height: 0;
+    clear: both;
+}
+.clearfix {
+    zoom: 1;
+}
+.left {
+    float: left
+}
+.right {
+    float: right
+}
+
+&lt;div class="div1 clearfix"&gt;
+    &lt;div class="left"&gt;Left&lt;/div&gt;
+    &lt;div class="right"&gt;Right&lt;/div&gt;
+&lt;/div&gt;
+/* 使用调试工具可以看到，父元素的高度不再为0了 */
+</pre>
+
+<p>注意：由于IE6 和 IE7 不支持 :after 伪类，因此需要添加 zoom: 1 兼容代码。</p>
+<div class="div1 clearfix" style="border: 1px solid blue;">
+    <div class="left" style="border: 1px solid red;">Left</div>
+    <div class="right" style="border: 1px solid red;">Right</div>
 </div>
 <br />
 <a href="./index.html">返回上级</a>
